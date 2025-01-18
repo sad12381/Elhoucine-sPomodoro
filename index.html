@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <!-- Audio Element for Button Click Sound -->
+    <audio id="click-sound" src="click-sound2.mp3"></audio>
+    <!-- Audio Elements for Sounds --> 
+    <audio id="rain-sound" src="sounds/rain.mp3" loop></audio>
+    <audio id="ocean-sound" src="sounds/ocean.mp3" loop></audio>
+    <audio id="piano-sound" src="sounds/piano.mp3" loop></audio>
+    <audio id="complete-sound" src="sounds/complete.mp3"></audio>
+    <!-- Audio Elements for Theme Sounds -->
+    <audio id="netflix-sound" src="sounds/netflix-intro.mp3"></audio>
+    <audio id="hello-kitty-sound" src="sounds/hello-kitty-jingle.mp3"></audio>
+    <audio id="one-piece-sound" src="sounds/one-piece-opening.mp3"></audio>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pomodoro</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+   
+ 
+</head>
+<body>
+    <div class="container">
+        <!-- Dark Mode Toggle -->
+<div class="dark-mode-toggle">
+    <input type="checkbox" id="dark-mode-switch">
+    <label for="dark-mode-switch" class="toggle-label">
+        <i class="fas fa-moon"></i>
+        <i class="fas fa-sun"></i>
+        <span class="toggle-ball"></span>
+    </label>
+</div>
+        <!-- Header Section -->
+<section class="header-section">
+    <h1 class="animated-header">Pomodoro Timer</h1>
+    <p class="tagline">Boost your productivity with focused work sessions and relaxing breaks.</p>
+</section>
+<!-- Quotes Section -->
+<section class="quotes-section">
+    <div id="quote-display"></div>
+</section>
+
+<!-- Name Prompt Modal -->
+<div id="name-prompt-modal" class="modal">
+    <div class="modal-content">
+        <h3>Marehba bik to Pomodoro Timer!</h3>
+        <p>Please enter your name to get started:</p>
+        <input type="text" id="name-input" placeholder="Your name...">
+        <button id="submit-name">Submit</button>
+    </div>
+</div>
+
+<!-- Greeting Pop-up -->
+<div id="greeting-popup" class="greeting-popup">
+    <p>Salam, <span id="user-name"></span> today, you rise, you fight, you conquer.</p>
+    <button id="close-greeting">×</button>
+</div>
+
+
+      <!-- Timer Section -->
+<section class="timer-section">
+    <div class="timer-controls">
+        <button id="pomodoro" class="active">Pomodoro</button>
+        <button id="short-break">Short Break</button>
+        <button id="long-break">Long Break</button>
+    </div>
+    <div class="timer-display">
+        <span id="time">25:00</span>
+    </div>
+    <div class="progress-bar">
+        <div class="progress" id="progress"></div>
+    </div>
+    <div class="timer-actions">
+        <button id="start"><i class="fas fa-play"></i> Start</button>
+        <button id="pause"><i class="fas fa-pause"></i> Pause</button>
+        <button id="reset"><i class="fas fa-redo"></i> Reset</button>
+    </div>
+</section>
+
+<!-- Code Prompt Modal (Hidden by Default) -->
+<div id="code-prompt-modal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #EFE9E1; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); z-index: 1000;">
+    <h3>Enter the Secret Code</h3>
+    <input type="text" id="code-input" placeholder="Enter code..." style="padding: 10px; border: 1px solid #72383D; border-radius: 5px; width: 100%; margin-bottom: 10px;">
+    <button id="submit-code" style="padding: 10px 20px; background: #72383D; color: #EFE9E1; border: none; border-radius: 5px; cursor: pointer;">Submit</button>
+    <p id="code-error" style="color: red; margin-top: 10px; display: none;">Incorrect code. Contact the owner for a free code.</p>
+</div>
+       
+
+<!-- Sound Effects Section -->
+<section class="sound-section">
+    <h3>Sound Effects</h3>
+    <div class="sound-controls">
+        <button id="rain"><i class="fas fa-cloud-rain"></i> Rain</button>
+        <button id="ocean"><i class="fas fa-water"></i> Ocean</button>
+        <button id="piano"><i class="fas fa-music"></i> Piano</button>
+        <button id="stop-sounds"><i class="fas fa-stop"></i> Stop All</button>
+        <div class="volume-control">
+            <label for="volume-slider">Volume:</label>
+            <input type="range" id="volume-slider" min="0" max="1" step="0.1" value="0.5">
+        </div>
+    </div>
+</section>
+        <!-- Task Section -->
+<section class="task-section">
+    <h3>Tasks</h3>
+    <div class="task-input-container">
+        <input type="text" id="task-input" placeholder="Add a new task...">
+        <button id="add-task"><i class="fas fa-plus"></i> Add</button>
+    </div>
+    <div class="task-actions">
+        <button id="remove-all-tasks"><i class="fas fa-trash"></i> Remove All</button>
+    </div>
+    <ul id="task-list"></ul>
+</section>
+
+        <!-- Statistics Section -->
+<section class="statistics-section">
+    <h3>Statistics</h3>
+    <div class="stats">
+        <div class="stat">
+            <span class="stat-icon"><i class="fas fa-check-circle"></i></span>
+            <span class="stat-number" id="pomodoro-count">0</span>
+            <span class="stat-label">Pomodoros Completed</span>
+        </div>
+        <div class="stat">
+            <span class="stat-icon"><i class="fas fa-tasks"></i></span>
+            <span class="stat-number" id="task-count">0</span>
+            <span class="stat-label">Tasks Completed</span>
+        </div>
+    </div>
+</section>
+<!-- How to Use Section -->
+<section class="how-to-use-section" id="how-to-use">
+    <h3>How to Use the Pomodoro Timer</h3>
+    <div class="how-to-use-content">
+        <p>
+            The Pomodoro Technique is a time management method that uses a timer to break work into intervals, traditionally 25 minutes long, separated by short breaks. Here's how to use this timer:
+        </p>
+        <ol>
+            <li>Select the <strong>Pomodoro</strong> mode (25 minutes) to start a work session.</li>
+            <li>Work on your task until the timer rings.</li>
+            <li>Take a <strong>Short Break</strong> (5 minutes) after each Pomodoro session.</li>
+            <li>After completing 4 Pomodoro sessions, take a <strong>Long Break</strong> (15 minutes).</li>
+            <li>Use the <strong>Sound Effects</strong> to stay focused or relaxed during your sessions.</li>
+        </ol>
+    </div>
+</section>
+
+<!-- History of Pomodoro Section -->
+<section class="history-section">
+    <h3>History of the Pomodoro Technique</h3>
+    <div class="history-content">
+        <p>
+            The Pomodoro Technique was developed in the late 1980s by Francesco Cirillo. He named it after the tomato-shaped kitchen timer ("pomodoro" means tomato in Italian) that he used to track his work intervals. The technique is designed to improve productivity by breaking work into manageable chunks and reducing burnout.
+        </p>
+    </div>
+</section>
+
+
+<!-- Floating Button -->
+<div class="floating-button" id="floating-button">
+    <i class="fas fa-question-circle"></i>
+</div>
+
+<!-- Notification for First-Time Users -->
+<div class="notification" id="notification">
+    <p>New to Pomodoro? <a href="#how-to-use">Click here</a> to learn how to use it!</p>
+    <button id="close-notification"><i class="fas fa-times"></i></button>
+</div>
+<!-- Theme Selection Pop-up (Hidden by Default) -->
+<div id="theme-popup" style="display: none; position: fixed; bottom: 20px; right: 20px; background-color: #72383D; color: #EFE9E1; padding: 15px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); z-index: 1000;">
+    <p>Choose a theme:</p>
+    <div class="theme-options">
+        <button id="theme-default-popup">Default</button>
+        <button id="theme-netflix-popup">Netflix</button>
+        <button id="theme-hello-kitty-popup">Hello Kitty</button>
+        <button id="theme-one-piece-popup">One Piece</button>
+    </div>
+    <button id="close-theme-popup" style="background: none; border: none; color: #EFE9E1; cursor: pointer; position: absolute; top: 5px; right: 5px;">×</button>
+</div>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2025 Elhoucine SADAQ's Pomodoro. All rights reserved.</p>
+            <div class="social-links">
+                <a href="https://api.whatsapp.com/send/?phone=212621348257&text&type=phone_number&app_absent=0"><i class="fab fa-plus"></i></a>
+                <a href="https://www.instagram.com/elhoucine.fromheaven_?igsh=MTloMnd2Z2N3Ymh4&utm_source=qr"><i class="fab fa-instagram"></i></a>
+            </div>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+    <!-- Loading Screen -->
+<div id="loading-screen">
+    <div class="loading-spinner"></div>
+    <p>Loading...</p>
+</div>
+</body>
+</html>
